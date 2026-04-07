@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Energiekeuze Gids - Officiële Energiecontract Keuzehulp</title>
+    <meta name="description" content="Officiële keuzehulp voor het vinden van het beste energiecontract. Ontwikkeld om consumenten te helpen bij het maken van een weloverwogen keuze." />
+    <meta name="author" content="Energiekeuze Gids" />
+    <meta name="application-name" content="Energiekeuze Gids" />
+    <meta name="keywords" content="energie, energiecontract, energieleverancier, vergelijking, keuzehulp, officieel, betrouwbaar" />
+    <meta property="og:image" content="/og-image.png" />
+    
+    <!-- Veilige CSP configuratie -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self' https: data:;
+      script-src 'self' https://cdn.gpteng.co https: 'unsafe-inline' 'unsafe-eval';
+      style-src 'self' https: 'unsafe-inline';
+      img-src 'self' https: data: blob:;
+      font-src 'self' https: data:;
+      connect-src 'self' https:;
+      media-src 'self' https:;
+      object-src 'none';
+      child-src 'self' https:;
+      frame-src 'self' https:;
+      worker-src 'self' blob:;
+      form-action 'self' https:;
+      frame-ancestors 'self' https:;
+      base-uri 'self';
+      upgrade-insecure-requests;
+      block-all-mixed-content;
+    ">
+    
+    <!-- Beveiligingsheaders -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
+    <!-- Permissies Policy -->
+    <meta http-equiv="Permissions-Policy" content="
+      accelerometer=(),
+      camera=(),
+      geolocation=(),
+      gyroscope=(),
+      magnetometer=(),
+      microphone=(),
+      payment=(),
+      usb=()
+    ">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Energiekeuze Gids - Officiële Energiecontract Keuzehulp">
+    <meta property="og:description" content="Betrouwbare keuzehulp voor het vinden van het beste energiecontract. Ontwikkeld om consumenten te helpen bij het maken van een weloverwogen keuze.">
+    <meta property="og:url" content="https://energiekeuze-gids.nl">
+    
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Energiekeuze Gids">
+    <meta name="twitter:description" content="Betrouwbare keuzehulp voor energiecontracten">
+    
+    <!-- Verificatie Meta Tags -->
+    <meta name="google-site-verification" content="Uw-site-verificatie-indien-beschikbaar">
+    <meta name="norton-safeweb-site-verification" content="norton-verificatie-indien-beschikbaar">
+    
+    <!-- PWA Support -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#ffffff">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module" crossorigin="anonymous" integrity="sha384-" defer></script>
+    <script type="module" src="/src/main.tsx" defer></script>
+    <noscript>
+      <div style="padding: 20px; text-align: center;">
+        Deze applicatie vereist JavaScript om te functioneren. Schakel JavaScript in om de Energiekeuze Gids te gebruiken.
+      </div>
+    </noscript>
+  </body>
+</html>
