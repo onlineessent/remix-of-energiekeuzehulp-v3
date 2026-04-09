@@ -1,5 +1,3 @@
-
-import { supabase } from "@/integrations/supabase/client";
 import { Scores, ContractType } from "@/types/contract";
 import { getRecommendation } from "@/utils/contractUtils";
 import { 
@@ -13,16 +11,14 @@ import {
  */
 export async function analyzeFromContractResultsTable() {
   try {
-    console.log("Fetching data from contract_results table...");
+    console.log("Fetching data from contract_results local api...");
     
-    // Using type assertion to bypass TypeScript's table check
-    let { data: contractResults, error: contractResultsError } = await (supabase
-      .from('contract_results' as any)
-      .select('recommended_type, percentages')
-      .order('timestamp', { ascending: false }) as any);
+    const res = await fetch('/api/contract-results');
+    if (!res.ok) throw new Error('Failed to fetch contract results');
+    const { data: contractResults } = await res.json();
       
-    if (contractResultsError || !contractResults || contractResults.length === 0) {
-      console.log("No data in contract_results table or error:", contractResultsError);
+    if (!contractResults || contractResults.length === 0) {
+      console.log("No data in contract_results table");
       return null;
     }
     
@@ -34,13 +30,11 @@ export async function analyzeFromContractResultsTable() {
     // For each contract result
     for (const result of contractResults) {
       try {
-        // Count the recommended contract type - using type assertion
-        const recommendedType = (result as any).recommended_type as ContractType;
+        const recommendedType = result.recommended_type as ContractType;
         contractCounts[recommendedType]++;
         
-        // Store percentages for each contract type - using type assertion
-        if ((result as any).percentages) {
-          Object.entries((result as any).percentages).forEach(([type, percentage]) => {
+        if (result.percentages) {
+          Object.entries(result.percentages).forEach(([type, percentage]) => {
             contractPercentages[type as ContractType].push(percentage as number);
           });
         }
@@ -77,19 +71,11 @@ export async function analyzeFromContractResultsTable() {
  */
 export async function analyzeFromUserResponsesTable() {
   try {
-    console.log("Fetching data from user_responses_v1 table...");
+    console.log("Fetching data from user_responses_v1 local api...");
     
-    // Fetch completed responses only
-    const { data: userResponses, error } = await supabase
-      .from('user_responses_v1')
-      .select('*')
-      .eq('is_completed', true)
-      .order('created_at', { ascending: false });
-    
-    if (error) {
-      console.error("Error fetching user responses:", error);
-      return { error: "Error retrieving user data" };
-    }
+    const res = await fetch('/api/analysis/responses');
+    if (!res.ok) throw new Error('Failed to fetch user responses');
+    const { data: userResponses } = await res.json();
     
     if (!userResponses || userResponses.length === 0) {
       return { error: "No completed user responses found" };
@@ -112,7 +98,7 @@ export async function analyzeFromUserResponsesTable() {
           continue;
         }
         
-        // Calculate total scores (similar to what happens in ContractAdvisor component)
+        // Calculate total scores
         const totalScores = answers.reduce((acc, curr) => {
           if (curr) {
             return {

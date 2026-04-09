@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 
 type Question = {
   text: string;
@@ -48,12 +47,18 @@ export const PostResultsSurvey = ({ onComplete }: { onComplete: () => void }) =>
     try {
       const question = questions[currentQuestion];
       
-      await supabase.from('contract_survey_responses').insert({
-        question_text: question.text,
-        answer_text: question.type === 'text' ? answer : null,
-        rating: question.type === 'rating' ? parseInt(answer) : null,
-        answer_type: question.type
+      const res = await fetch('/api/survey-responses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question_text: question.text,
+          answer_text: question.type === 'text' ? answer : null,
+          rating: question.type === 'rating' ? parseInt(answer) : null,
+          answer_type: question.type
+        })
       });
+
+      if (!res.ok) throw new Error('Failed to save survey response');
 
       const newAnswers = [...answers];
       newAnswers[currentQuestion] = answer;
