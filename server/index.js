@@ -8,8 +8,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));const app = expre
 app.use(cors());
 app.use(express.json());
 
-// Serve statically built React frontend out of /dist directly!
-app.use(express.static(path.resolve(__dirname, '../dist')));
+// NOTE: API routes have been moved to the top to ensure they are intercepted
+// BEFORE any static file handling takes place.
+
 // user_responses_v1 (Upsert)
 app.post('/api/responses', (req, res) => {
   const payload = req.body;
@@ -176,6 +177,9 @@ app.delete('/api/admin/survey/:id', (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// Serve statically built React frontend out of /dist directly!
+app.use(express.static(path.resolve(__dirname, '../dist')));
 
 // For any unknown route, let React Router handle it
 app.get('*', (req, res) => {
