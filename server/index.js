@@ -182,7 +182,7 @@ app.delete('/api/admin/survey/:id', (req, res) => {
 app.use(express.static(path.resolve(__dirname, '../dist')));
 
 // For any unknown route, let React Router handle it
-app.get('*', (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.resolve(__dirname, '../dist/index.html'));
 });
 
