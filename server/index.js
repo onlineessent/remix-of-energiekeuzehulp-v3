@@ -1,11 +1,15 @@
 import express from 'express';
 import cors from 'cors';
 import db from './db.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const app = express();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Serve statically built React frontend out of /dist directly!
+app.use(express.static(path.resolve(__dirname, '../dist')));
 // user_responses_v1 (Upsert)
 app.post('/api/responses', (req, res) => {
   const payload = req.body;
@@ -173,7 +177,12 @@ app.delete('/api/admin/survey/:id', (req, res) => {
   }
 });
 
-const PORT = 3001;
+// For any unknown route, let React Router handle it
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../dist/index.html'));
+});
+
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`Express SQLite server running on http://localhost:${PORT}`);
+  console.log(`Express SQLite server running on port ${PORT}`);
 });
